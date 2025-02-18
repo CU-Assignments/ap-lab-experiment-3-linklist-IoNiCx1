@@ -1,0 +1,31 @@
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        // Create a dummy node to handle edge cases where the head might be removed
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        
+        ListNode* prev = dummy;  // Previous pointer to track the last distinct node
+        ListNode* curr = head;   // Current pointer to traverse the list
+        
+        while (curr != nullptr) {
+            // Check if the current node is a duplicate (same as the next node)
+            if (curr->next != nullptr && curr->val == curr->next->val) {
+                // Skip all nodes with the same value
+                while (curr->next != nullptr && curr->val == curr->next->val) {
+                    curr = curr->next;
+                }
+                // Link previous node to the next distinct node
+                prev->next = curr->next;
+            } else {
+                // No duplicate, just move the previous pointer
+                prev = prev->next;
+            }
+            // Move current pointer forward
+            curr = curr->next;
+        }
+        
+        // Return the modified list starting from the node after the dummy node
+        return dummy->next;
+    }
+};
